@@ -1,0 +1,38 @@
+package com.myheart.patient.model;
+
+import jakarta.persistence.*;
+import lombok.*;
+
+import java.time.LocalDate;
+
+@Entity
+@Table(name = "patients")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class Patient {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false)
+    private String nom;
+
+    @Column(nullable = false)
+    private String prenom;
+
+    @Column(nullable = false)
+    private LocalDate dateNaissance;
+
+    @Column(nullable = false)
+    private String sexe;
+
+    @Column(unique = true)
+    private String email;
+
+    private String telephone;
+
+    private String adresse;
+}

@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  postgres-facturation:
+    image: postgres:15-alpine
+    container_name: postgres-facturation
+    environment:
+      POSTGRES_DB: facturation_db
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin123
+    ports:
+      - "5434:5432"
+    volumes:
+      - pgdata_facturation:/var/lib/postgresql/data
+
+  facturation-service:
+    build: .
+    container_name: facturation-service
+    ports:
+      - "8083:8083"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-facturation:5432/facturation_db
+      SPRING_DATASOURCE_USERNAME: admin
+      SPRING_DATASOURCE_PASSWORD: admin123
+    depends_on:
+      - postgres-facturation
+
+volumes:
+  pgdata_facturation:

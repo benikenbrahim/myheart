@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  postgres-pharmacie:
+    image: postgres:15-alpine
+    container_name: postgres-pharmacie
+    environment:
+      POSTGRES_DB: pharmacie_db
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin123
+    ports:
+      - "5436:5432"
+    volumes:
+      - pgdata_pharmacie:/var/lib/postgresql/data
+
+  pharmacie-service:
+    build: .
+    container_name: pharmacie-service
+    ports:
+      - "8085:8085"
+    environment:
+      PORT: 8085
+      DB_HOST: postgres-pharmacie
+      DB_PORT: 5432
+      DB_NAME: pharmacie_db
+      DB_USER: admin
+      DB_PASSWORD: admin123
+    depends_on:
+      - postgres-pharmacie
+
+volumes:
+  pgdata_pharmacie:

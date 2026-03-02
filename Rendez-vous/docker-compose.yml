@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  postgres-rendezvous:
+    image: postgres:15-alpine
+    container_name: postgres-rendezvous
+    environment:
+      POSTGRES_DB: rendezvous_db
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5433:5432"  # Port 5433 pour éviter conflit avec le patient-service
+    volumes:
+      - pgdata_rendezvous:/var/lib/postgresql/data
+
+  rendezvous-service:
+    build: .
+    container_name: rendezvous-service
+    ports:
+      - "8082:8082"
+    environment:
+      PORT: 8082
+      DB_HOST: postgres-rendezvous
+      DB_PORT: 5432
+      DB_NAME: rendezvous_db
+      DB_USER: admin
+      DB_PASSWORD: password
+      PATIENT_SERVICE_URL: http://patient-service:8081/api/patients
+    depends_on:
+      - postgres-rendezvous
+
+volumes:
+  pgdata_rendezvous:

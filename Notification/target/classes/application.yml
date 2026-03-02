@@ -1,0 +1,31 @@
+spring:
+  application:
+    name: notification-service
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/notification_db
+    username: postgres
+    password: admin
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+  # Configuration email (simulation)
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: test@myheart.com
+    password: testpassword
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
+
+server:
+  port: 8086
+
+# URLs des autres services
+services:
+  patient: http://localhost:8081/api/patients

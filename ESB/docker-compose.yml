@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  api-gateway:
+    build: .
+    container_name: api-gateway
+    ports:
+      - "8080:8080"
+    environment:
+      PORT: 8080
+      PATIENT_SERVICE_URL: http://patient-service:8081
+      RENDEZVOUS_SERVICE_URL: http://rendezvous-service:8082
+      FACTURATION_SERVICE_URL: http://facturation-service:8083
+      LABORATOIRE_SERVICE_URL: http://laboratoire-service:8084
+      PHARMACIE_SERVICE_URL: http://pharmacie-service:8085
+      NOTIFICATION_SERVICE_URL: http://notification-service:8086
